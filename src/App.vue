@@ -12,12 +12,12 @@
         <a v-link="{path: '/seller'}">商家</a>
       </div>
     </div>
-    <router-view></router-view>
+    <router-view :seller="seller"></router-view>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import header from './components/header/header.vue'
+  import header from 'components/header/header'
 
   const ERR_OK = 0
 
@@ -32,7 +32,6 @@
         response = response.body
         if (response.errno === ERR_OK) {
           this.seller = response.data
-          console.log(this.seller)
         }
       })
     },

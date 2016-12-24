@@ -123,7 +123,7 @@
             width: 30px
             height: 18px
             vertical-align: top
-            bg-image(brand)
+            bg-image('brand')
             background-size: 30px 18px
             background-repeat: no-repeat
           .name
@@ -131,7 +131,6 @@
             font-size: 16px
             line-height: 18px
             font-weight: bold
-
         .description
           margin-bottom: 10px
           font-size: 12px
@@ -286,7 +285,6 @@
               .text
                 font-size: 12px
                 line-height: 16px
-
           .bulletin
             width: 80%
             margin: 0 auto
