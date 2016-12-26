@@ -40,7 +40,7 @@
       </ul>
     </div>
   </div>
-  <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+  <shopcart v-ref:shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
 </template>
 
 <script type="text/ecmascript-6">
@@ -129,11 +129,19 @@
         let foodList = this.$els.foodsWrapper.getElementsByClassName('food-list-hook')
         let el = foodList[index]
         this.foodsScroll.scrollToElement(el, 300)
+      },
+      _drop(target) {
+        this.$refs.shopcart.drop(target)
       }
     },
     components: {
       shopcart,
       cartcontrol
+    },
+    events: {
+      'cartAdd'(target) {
+        this._drop(target)
+      }
     }
   }
 </script>
