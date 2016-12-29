@@ -1,10 +1,10 @@
 <template>
   <div class="cartcontrol">
-    <div class="remove" v-show="food.count>0" @click="removeCart" transition="move">
+    <div class="remove" v-show="food.count>0" @click.stop.prevent="removeCart" transition="move">
       <div class="inner icon-remove_circle_outline"></div>
     </div>
     <div class="count" v-show="food.count>0" transition="show">{{food.count}}</div>
-    <div class="add icon-add_circle" @click="addCart"></div>
+    <div class="add icon-add_circle" @click.stop.prevent="addCart"></div>
   </div>
 </template>
 
@@ -27,7 +27,7 @@
         } else {
           this.food.count++
         }
-        this.$dispatch('cartAdd', event.target)
+        this.$dispatch('cart.add', event.target)
       },
       removeCart(event) {
         if (!event._constructed) {

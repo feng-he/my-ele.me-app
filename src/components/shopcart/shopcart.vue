@@ -21,7 +21,7 @@
       </div>
       <div class="list-content" v-el:list-content>
         <ul>
-          <li class="food" v-for="food in selectFoods">
+          <li class="food border-1px" v-for="food in selectFoods">
             <span class="name">{{food.name}}</span>
             <div class="cartcontrol-wrapper">
               <cartcontrol :food="food"></cartcontrol>
