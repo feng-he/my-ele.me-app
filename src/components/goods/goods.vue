@@ -15,7 +15,7 @@
         <li v-for="item in goods" class="food-list food-list-hook">
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li v-for="food in item.foods" class="food-item border-1px"  @click="selectFood(food,$event)">
+            <li v-for="food in item.foods" class="food-item border-1px" @click="selectFood(food,$event)">
               <div class="icon">
                 <img width="57" height="57" :src="food.icon">
               </div>
@@ -40,7 +40,8 @@
       </ul>
     </div>
   </div>
-  <shopcart v-ref:shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+  <shopcart v-ref:shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice"
+            :min-price="seller.minPrice"></shopcart>
   <food :food="selectedFood" v-ref:food></food>
 </template>
 
@@ -164,6 +165,7 @@
     display: flex
     position: absolute
     top: 175px
+    left: 0
     bottom: 46px
     width: 100%
     overflow: hidden

@@ -12,12 +12,12 @@
         <div class="description">
           {{seller.description}}/{{seller.deliveryTime}}分钟送达
         </div>
-        <div v-if="seller.supports" class="support">
+        <div class="support" v-if="seller.supports" >
           <span class="icon" :class="classMap[seller.supports[0].type]"></span>
           <span class="text">{{seller.supports[0].description}}</span>
         </div>
       </div>
-      <div v-if="seller.supports" class="support-count" @click="showDetail">
+      <div class="support-count" v-if="seller.supports" @click="showDetail">
         <span class="count">{{seller.supports.length}}个</span>
         <i class="icon-keyboard_arrow_right"></i>
       </div>
@@ -30,7 +30,7 @@
     <div class="background">
       <img width="100%" height="100%" :src="seller.avatar">
     </div>
-    <div v-show="detailShow" class="detail" transition="fade">
+    <div class="detail" v-show="detailShow" transition="fade">
       <div class="detail-wrapper clearfix">
         <div class="detail-main">
           <h1 class="name">{{seller.name}}</h1>
@@ -42,7 +42,7 @@
             <div class="text">优惠信息</div>
             <div class="line"></div>
           </div>
-          <ul v-if="seller.supports" class="support">
+          <ul class="supports" v-if="seller.supports">
             <li class="support-item" v-for="item in seller.supports">
               <span class="icon" :class="classMap[seller.supports[$index].type]"></span>
               <span class="text">{{seller.supports[$index].description}}</span>
@@ -255,7 +255,7 @@
               font-size: 14px
               line-height: 14px
               font-weight: 700
-          .support
+          .supports
             width: 80%
             margin: 0 auto
             .support-item

@@ -1,5 +1,5 @@
 <template>
-  <div class="food" v-show="showFlag" transition="move" v-el:food-scroll>
+  <div class="food" v-show="showFlag" transition="move" v-el:food>
     <div class="food-scroll">
       <div class="image-wrapper">
         <img :src="food.image">
@@ -26,9 +26,25 @@
         <div class="text">{{food.info}}</div>
       </div>
       <split v-if="food.ratings"></split>
-      <div class="ratings">
+      <div class="food-ratings">
         <h1 class="title">商品评价</h1>
         <ratingselect :select-type="selectType" :only-content="onlyContent" :tag="tag" :ratings="food.ratings"></ratingselect>
+        <div class="rating-wrapper">
+          <ul v-if="food.ratings && food.ratings.length">
+            <li class="rating-item border-1px" v-for="rating in food.ratings" v-show="ratingShow(rating.rateType,rating.text)">
+              <div class="user">
+                <span class="time">{{rating.rateTime | formatDate}}</span>
+                <span class="username">{{rating.username}}</span>
+                <img class="avatar" width="12" height="12" :src="rating.avatar">
+              </div>
+              <div class="rating-content">
+                <span class="thumb" :class="{'icon-thumb_up':rating.rateType===0,'icon-thumb_down':rating.rateType===1}"></span>
+                <span class="text">{{rating.text}}</span>
+              </div>
+            </li>
+          </ul>
+          <div class="no-rating" v-show="!food.ratings || !food.ratings.length">暂无评价</div>
+        </div>
       </div>
     </div>
   </div>
@@ -40,9 +56,8 @@
   import Vue from 'vue'
   import split from 'components/split/split'
   import ratingselect from 'components/ratingselect/ratingselect'
+  import {formatDate} from 'common/js/date'
 
-  // const POSITIVE = 0
-  // const NEGATIVE = 1
   const ALL = 2
 
   export default {
@@ -55,7 +70,7 @@
       return {
         showFlag: false,
         selectType: ALL,
-        onlyContent: false,
+        onlyContent: true,
         tag: {
           all: '全部',
           positive: '推荐',
@@ -67,10 +82,10 @@
       show() {
         this.showFlag = true
         this.selectType = ALL
-        this.onlyContent = false
+        this.onlyContent = true
         this.$nextTick(() => {
           if (!this.scroll) {
-            this.scroll = new BScroll(this.$els.foodScroll, {
+            this.scroll = new BScroll(this.$els.food, {
               click: true
             })
           } else {
@@ -87,17 +102,49 @@
         }
         Vue.set(this.food, 'count', 1)
         this.$dispatch('cart.add', event.target)
+      },
+      ratingShow(type, text) {
+        if (this.onlyContent && !text) {
+          return false
+        }
+        if (this.selectType === ALL) {
+          return true
+        } else {
+          return type === this.selectType
+        }
       }
     },
     components: {
       cartcontrol,
       split,
       ratingselect
+    },
+    filters: {
+      formatDate(time) {
+        let date = new Date(time)
+        return formatDate(date, 'yyyy-MM-dd hh:mm')
+      }
+    },
+    events: {
+      'ratingtype.select'(type) {
+        this.selectType = type
+        this.$nextTick(() => {
+          this.scroll.refresh()
+        })
+      },
+      'content.toggle'(onlyContent) {
+        this.onlyContent = onlyContent
+        this.$nextTick(() => {
+          this.scroll.refresh()
+        })
+      }
     }
   }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import '../../common/stylus/mixin.styl'
+
   .food
     position: fixed
     top: 0
@@ -197,11 +244,58 @@
         font-size: 12px
         line-height: 24px
         color: rgb(77, 85, 93)
-    .ratings
+    .food-ratings
       .title
         padding: 18px 18px 0
         font-size: 14px
         line-height: 12px
         color: rgb(77, 85, 93)
+      .rating-wrapper
+        padding: 0 18px
+        .rating-item
+          position: relative
+          padding: 16px 0
+          border-1px(rgba(7, 17, 27, 0.1))
+          .user
+            height: 12px
+            font-size: 10px
+            line-height: 12px
+            color: rgb(147, 153, 159)
+            .time
+              position: absolute
+              top: 16px
+              left: 0
+            .username
+              position: absolute
+              top: 16px
+              right: 18px
+            .avatar
+              position: absolute
+              top: 16px
+              right: 0
+              border-radius: 50%
+          .rating-content
+            margin-top: 6px
+            font-size: 0
+            .thumb
+              display: inline-block
+              vertical-align: top
+              margin-right: 4px
+              font-size: 12px
+              line-height: 24px
+              &.icon-thumb_up
+                color: rgb(0, 160, 220)
+              &.icon-thumb_down
+                color: rgb(147, 153, 159)
+            .text
+              display: inline-block
+              vertical-align: top
+              font-size: 12px
+              line-height: 24px
+              color: rgb(7, 17, 27)
+        .no-rating
+          padding: 16px 0
+          font-size: 12px
+          color: rgb(147, 153, 159)
 
 </style>

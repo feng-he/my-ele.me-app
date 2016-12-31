@@ -12,23 +12,6 @@
       <span class="icon-check_circle"></span>
       <span class="text">只看有内容的评价</span>
     </div>
-    <div class="rating-wrapper" v-for="rating in ratings">
-      <ul v-show="ratings && ratings.length">
-        <li class="rating-item border-1px" v-show="ratingShow(rating.rateType,rating.text)">
-          <div class="user">
-            <span class="time">{{rating.rateTime}}</span>
-            <span class="username">{{rating.username}}</span>
-            <img class="avatar" width="12" height="12" :src="rating.avatar">
-          </div>
-          <div class="rating-content" @click="toggleContent">
-            <span class="thumb"
-                  :class="{'icon-thumb_up':rating.rateType===0,'icon-thumb_down':rating.rateType===1}"></span>
-            <span class="text">{{rating.text}}</span>
-          </div>
-        </li>
-      </ul>
-      <div class="no-rating" v-show="!ratings || !ratings.length">暂无评价</div>
-    </div>
   </div>
 </template>
 
@@ -85,7 +68,7 @@
           return
         }
         this.selectType = type
-        this.$dispatch('ratingtype.selcet', type)
+        this.$dispatch('ratingtype.select', type)
       },
       toggleContent(event) {
         if (!event._constructed) {
@@ -93,16 +76,6 @@
         }
         this.onlyContent = !this.onlyContent
         this.$dispatch('content.toggle', this.onlyContent)
-      },
-      ratingShow(type, text) {
-        if (this.onlyContent && !text) {
-          return false
-        }
-        if (this.selectType === ALL) {
-          return true
-        } else {
-          return type === this.selectType
-        }
       }
     }
   }
@@ -155,47 +128,5 @@
         display: inline-block
         vertical-align: top
         font-size: 12px
-    .rating-wrapper
-      padding: 0 18px
-      .rating-item
-        position: relative
-        padding: 16px 0
-        border-1px(rgba(7, 17, 27, 0.1))
-        .user
-          height: 12px
-          font-size: 10px
-          line-height: 12px
-          color: rgb(147, 153, 159)
-          .time
-            position: absolute
-            top: 16px
-            left: 0
-          .username
-            position: absolute
-            top: 16px
-            right: 18px
-          .avatar
-            position: absolute
-            top: 16px
-            right: 0
-            border-radius: 50%
-        .rating-content
-          margin-top: 6px
-          font-size: 0
-          .thumb
-            display: inline-block
-            vertical-align: top
-            margin-right: 4px
-            font-size: 12px
-            line-height: 24px
-            &.icon-thumb_up
-              color: rgb(0, 160, 220)
-            &.icon-thumb_down
-              color: rgb(147, 153, 159)
-          .text
-            display: inline-block
-            vertical-align: top
-            font-size: 12px
-            line-height: 24px
-            color: rgb(7, 17, 27)
+
 </style>
