@@ -2,7 +2,7 @@
   <div class="header">
     <div class="content-wrapper">
       <div class="avatar">
-        <img width="64px" height="64px" :src="seller.avatar">
+        <img width="64" height="64" :src="seller.avatar">
       </div>
       <div class="content">
         <div class="title">
@@ -12,8 +12,8 @@
         <div class="description">
           {{seller.description}}/{{seller.deliveryTime}}分钟送达
         </div>
-        <div class="support" v-if="seller.supports" >
-          <span class="icon" :class="classMap[seller.supports[0].type]"></span>
+        <div class="support" v-if="seller.supports">
+          <icon :postfix="1" :tp="seller.supports[0].type"></icon>
           <span class="text">{{seller.supports[0].description}}</span>
         </div>
       </div>
@@ -44,8 +44,8 @@
           </div>
           <ul class="supports" v-if="seller.supports">
             <li class="support-item" v-for="item in seller.supports">
-              <span class="icon" :class="classMap[seller.supports[$index].type]"></span>
-              <span class="text">{{seller.supports[$index].description}}</span>
+              <icon :postfix="2" :tp="item.type"></icon>
+              <span class="text">{{item.description}}</span>
             </li>
           </ul>
           <div class="title">
@@ -67,6 +67,7 @@
 
 <script type="text/ecmascript-6">
   import star from 'components/star/star'
+  import icon from 'components/icon/icon'
 
   export default {
     props: {
@@ -91,13 +92,14 @@
       this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
     },
     components: {
-      star
+      star,
+      icon
     }
   }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import '../../common/stylus/mixin';
+  @import '../../common/stylus/mixin.styl';
 
   .header
     position: relative
@@ -137,24 +139,8 @@
           line-height: 12px
         .support
           .icon
-            display: inline-block
-            width: 12px
-            height: 12px
-            vertical-align: top
             margin-right: 4px
             margin-bottom: 2px
-            background-size: 12px 12px
-            background-repeat: no-repeat
-            &.decrease
-              bg-image('decrease_1')
-            &.discount
-              bg-image('discount_1')
-            &.guarantee
-              bg-image('guarantee_1')
-            &.invoice
-              bg-image('invoice_1')
-            &.special
-              bg-image('special_1')
           .text
             font-size: 10px
             line-height: 12px
@@ -265,23 +251,7 @@
               &:last-child
                 margin-bottom: 0
               .icon
-                display: inline-block
-                vertical-align: top
-                width: 16px
-                height: 16px
                 margin-right: 6px
-                background-size: 16px 16px
-                background-repeat: no-repeat
-                &.decrease
-                  bg-image('decrease_2')
-                &.discount
-                  bg-image('discount_2')
-                &.guarantee
-                  bg-image('guarantee_2')
-                &.invoice
-                  bg-image('invoice_2')
-                &.special
-                  bg-image('special_2')
               .text
                 font-size: 12px
                 line-height: 16px

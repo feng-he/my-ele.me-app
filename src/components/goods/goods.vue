@@ -5,7 +5,7 @@
         <li v-for="item in goods" class="menu-item" :class="{'current':currentIndex===$index}"
             @click="selectMenu($index,$event)">
           <span class="text border-1px">
-            <span class="icon" v-show="item.type>0" :class="classMap[item.type]"></span>{{item.name}}
+            <icon :postfix="3" :tp="item.type" v-if="item.type>0"></icon>{{item.name}}
           </span>
         </li>
       </ul>
@@ -50,6 +50,7 @@
   import shopcart from 'components/shopcart/shopcart'
   import cartcontrol from 'components/cartcontrol/cartcontrol'
   import food from 'components/food/food'
+  import icon from 'components/icon/icon'
 
   const ERR_OK = 0
 
@@ -148,7 +149,8 @@
     components: {
       shopcart,
       cartcontrol,
-      food
+      food,
+      icon
     },
     events: {
       'cart.add'(target) {
@@ -187,23 +189,7 @@
           .text
             border-none()
         .icon
-          display: inline-block
-          vertical-align: top
-          width: 12px
-          height: 12px
           margin-right: 2px
-          background-size: 12px 12px
-          background-repeat: no-repeat
-          &.decrease
-            bg-image('decrease_3')
-          &.discount
-            bg-image('discount_3')
-          &.guarantee
-            bg-image('guarantee_3')
-          &.invoice
-            bg-image('invoice_3')
-          &.special
-            bg-image('special_3')
         .text
           display: table-cell
           vertical-align: middle

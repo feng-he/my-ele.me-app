@@ -39,8 +39,8 @@
         <p class="content border-1px">{{seller.bulletin}}</p>
         <ul class="supports" v-if="seller.supports">
           <li class="support-item border-1px" v-for="item in seller.supports">
-            <span class="icon" :class="classMap[seller.supports[$index].type]"></span>
-            <span class="text">{{seller.supports[$index].description}}</span>
+            <icon :postfix="4" :tp="item.type"></icon>
+            <span class="text">{{item.description}}</span>
           </li>
         </ul>
       </div>
@@ -71,6 +71,7 @@
   import star from 'components/star/star'
   import split from 'components/split/split'
   import {saveToLocal, loadFromLocal} from 'common/js/store'
+  import icon from 'components/icon/icon'
 
   export default {
     props: {
@@ -89,9 +90,6 @@
       favoriteText() {
         return this.favorite ? '已收藏' : '收藏'
       }
-    },
-    created() {
-      this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
     },
     watch: {
       'seller'() {
@@ -142,7 +140,8 @@
     },
     components: {
       star,
-      split
+      split,
+      icon
     }
   }
 </script>
@@ -158,7 +157,7 @@
     width: 100%
     overflow: hidden
     .overview
-      position: relative
+      position: relativeicon
       padding: 18px
       .title
         margin-bottom: 8px
@@ -239,23 +238,7 @@
           &:last-child
             border-none()
           .icon
-            display: inline-block
-            vertical-align: top
-            width: 16px
-            height: 16px
             margin-right: 6px
-            background-size: 16px 16px
-            background-repeat: no-repeat
-            &.decrease
-              bg-image('decrease_4')
-            &.discount
-              bg-image('discount_4')
-            &.guarantee
-              bg-image('guarantee_4')
-            &.invoice
-              bg-image('invoice_4')
-            &.special
-              bg-image('special_4')
           .text
             font-size: 12px
             line-height: 16px
